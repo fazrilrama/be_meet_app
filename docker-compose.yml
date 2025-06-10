@@ -1,11 +1,25 @@
 version: '3.8'
+
 services:
-  nest-app:
-    container_name: meet-app
-    build: .
+  mongo:
+    image: mongo
+    container_name: mongodb
+    restart: always
     ports:
-      - '3000:3000'
+      - "27017:27017"
     volumes:
-      - .:/usr/src/app
+      - mongo-data:/data/db
+
+  nestjs:
+    build: .
+    container_name: nest-chat-api
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
     environment:
-      - NODE_ENV=production
+      - MONGODB_URI=mongodb://mongo:27017/chatdb
+
+volumes:
+  mongo-data:

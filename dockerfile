@@ -1,18 +1,18 @@
-# Dockerfile
-FROM node:18
+# Pakai Node.js 18 LTS (alpine = versi ringan)
+FROM node:18-alpine
 
 # Set working directory
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copy package.json & install deps
+# Copy dan install dependencies
 COPY package*.json ./
 RUN npm install
 
-# Copy source code
+# Copy seluruh source code
 COPY . .
 
-# Build app
+# Build aplikasi
 RUN npm run build
 
-# Run app
+# Jalankan aplikasi
 CMD ["npm", "run", "start:prod"]
