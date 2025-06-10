@@ -12,7 +12,7 @@ services:
 
   nestjs:
     build: .
-    container_name: nest-chat-api
+    container_name: be_meet_app
     restart: always
     ports:
       - "3000:3000"
@@ -23,3 +23,4 @@ services:
 
 volumes:
   mongo-data:
+    - mongo-data:/data/db
