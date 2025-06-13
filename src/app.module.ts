@@ -11,6 +11,7 @@ import { MeetingModule } from './meeting/meeting.module';
 import { ParticipantModule } from './participant/participant.module';
 import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
+import { UploadModule } from './upload/upload.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -20,7 +21,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     MeetingModule, 
     ParticipantModule, 
     UserModule, 
-    ChatModule
+    ChatModule,
+    UploadModule
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

@@ -9,11 +9,11 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { UploadService } from './upload.service';
 
-@Controller('upload')
+@Controller('record')
 export class UploadController {
 constructor(private readonly uploadService: UploadService) {}
 
-    @Post('record')
+    @Post('upload')
     @UseInterceptors(
         FileInterceptor('file', {
             storage: diskStorage({
@@ -39,8 +39,9 @@ constructor(private readonly uploadService: UploadService) {}
         uploadVideo(@UploadedFile() file: Express.Multer.File) {
             const metadata = this.uploadService.saveFileMetadata(file);
             return {
-            message: 'Upload successful',
-            ...metadata,
+                status: true,
+                message: 'Upload successful',
+                ...metadata,
         };
     }
 }  
