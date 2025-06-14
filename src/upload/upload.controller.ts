@@ -1,4 +1,5 @@
 import {
+    Body,
     Controller,
     Post,
     UploadedFile,
@@ -36,12 +37,20 @@ constructor(private readonly uploadService: UploadService) {}
         }),
     )
 
-        uploadVideo(@UploadedFile() file: Express.Multer.File) {
-            const metadata = this.uploadService.saveFileMetadata(file);
+    uploadVideo(@UploadedFile() file: Express.Multer.File, @Body('meeting_id') meeting_id) {
+
+        try {
+            const metadata = this.uploadService.saveFileMetadata(file, meeting_id);
             return {
                 status: true,
                 message: 'Upload successful',
                 ...metadata,
-        };
+            };
+        } catch(err) {
+            return {
+                status: false,
+                message: err.message
+            }
+        }
     }
 }  

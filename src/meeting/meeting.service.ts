@@ -56,6 +56,24 @@ export class MeetingService {
       
         const rows: any = await query(sql, params);
 
+        const meeting = rows[0];
+
+        if (meeting_code && meeting) {
+            const sql_record = 'SELECT id, record_name, created_at FROM meeting_record WHERE meeting_id = ?';
+            const sql_participant = `
+                SELECT meeting_participant.id, users.fullname, users.email, status_accept.name as status_name  FROM meeting_participant 
+                    LEFT JOIN users ON users.id = meeting_participant.user_id
+                    LEFT JOIN status_accept ON status_accept.id = meeting_participant.status_accept 
+                WHERE meeting_id = ?
+            `;
+
+            const record: any = await query(sql_record, meeting.id);
+            const participant: any = await query(sql_participant, meeting.id);
+
+            meeting.participant = participant;
+            meeting.record = record;
+        }
+
         return {
             status: true,
             message: 'SUCCESS_GET_MEETINGS',

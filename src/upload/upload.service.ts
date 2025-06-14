@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { join } from 'path';
+import { query } from 'src/config/connection';
 
 @Injectable()
 export class UploadService {
-  saveFileMetadata(file: Express.Multer.File) {
+  async saveFileMetadata(file: Express.Multer.File, meeting_id?: number) {
     const metadata = {
       originalName: file.originalname,
       storedName: file.filename,
@@ -32,6 +33,11 @@ export class UploadService {
         existing = [];
       }
     }
+
+    // INSERT TO DATABASE
+    const rows: any = await query(
+        'INSERT INTO meeting_record (meeting_id, record_name) VALUES (?,?)'
+    , [meeting_id, metadata.storedName]); 
 
     existing.push(metadata);
     fs.writeFileSync(metadataPath, JSON.stringify(existing, null, 2));
