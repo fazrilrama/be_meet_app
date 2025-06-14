@@ -78,4 +78,23 @@ export class UserService {
             data: rows
         };
     }
+
+    async approval_user(user_id: number, type:number) {
+        const update: any = await query_transaction(
+            'UPDATE users SET is_active = ? WHERE id = ?'
+        , [type, user_id]);
+
+        if (update.affectedRows == 0) {
+            return {
+              status: false,
+              message: 'data tidak terupdate...',
+            };
+        }
+
+        return {
+            status: 200,
+            message: 'Update success',
+            data: update
+        };
+    }
 }
