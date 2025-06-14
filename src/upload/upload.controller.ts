@@ -42,7 +42,7 @@ constructor(private readonly uploadService: UploadService) {}
         try {
             const metadata = this.uploadService.saveFileMetadata(file, meeting_id);
             return {
-                status: true,
+                status: 200,
                 message: 'Upload successful',
                 ...metadata,
             };

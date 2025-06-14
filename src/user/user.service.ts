@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { query, query_transaction } from '../config/connection';
 
 @Injectable()
@@ -17,7 +17,7 @@ export class UserService {
         sql += ' ORDER BY users.id DESC';
         const rows: any = await query(sql, params);
         return {
-            status: true,
+            status: 200,
             message: 'SUCCESS_GET_USER',
             data: rows
         };
@@ -44,8 +44,37 @@ export class UserService {
 
         const rows: any = await query(sql, params);
         return {
-            status: true,
+            status: 200,
             message: 'SUCCESS_GET_PROFILE',
+            data: rows
+        };
+    }
+
+    async get_request_user(user?: any) {
+        if(user?.role != 1) { // WAJIB SUPERADMIN
+            throw new BadRequestException('PERMISSION_DENIED');
+        }
+
+        let sql = `
+            SELECT 
+                users.id,
+                users.fullname,
+                users.email,
+                users.username,
+                company.name as company_name,
+                user_role.name as role_name,
+                users.created_at
+            FROM users
+            LEFT JOIN user_role ON user_role.id = users.role_id
+            LEFT JOIN company ON company.id = users.company_id
+            WHERE company_id = ? AND is_active = 0
+            ORDER BY users.id DESC
+        `;
+
+        const rows: any = await query(sql, user.user.company_id);
+        return {
+            status: 200,
+            message: 'SUCCESS_GET_REQUEST_USER',
             data: rows
         };
     }

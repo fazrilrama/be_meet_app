@@ -24,7 +24,7 @@ export class ParticipantService {
         }
 
         return {
-            status: true,
+            status: 200,
             message: 'Berhasil membuat participant',
             data: insert
         };
@@ -44,7 +44,7 @@ export class ParticipantService {
         }
 
         return  {
-            status: true,
+            status: 200,
             message: 'Berhasil menghapus participant',
             data: update
         };
@@ -63,7 +63,7 @@ export class ParticipantService {
         }
 
         return {
-            status: true,
+            status: 200,
             message: 'Berhasil update participant',
             data: update
         };
@@ -105,7 +105,7 @@ export class ParticipantService {
 
         const rows: any = await query(sql, params);
         return {
-            status: true,
+            status: 200,
             message: 'SUCCESS_GET_PARTICIPANTS',
             length: rows.length,
             data: rows

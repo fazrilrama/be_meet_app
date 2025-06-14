@@ -24,7 +24,7 @@ export class MeetingService {
         }
 
         return {
-            status: true,
+            status: 200,
             message: 'Berhasil membuat meeting',
             data: {
                 code: meeting_code
@@ -63,7 +63,7 @@ export class MeetingService {
             const sql_participant = `
                 SELECT meeting_participant.id, users.fullname, users.email, status_accept.name as status_name  FROM meeting_participant 
                     LEFT JOIN users ON users.id = meeting_participant.user_id
-                    LEFT JOIN status_accept ON status_accept.id = meeting_participant.status_accept 
+                    LEFT JOIN status_accept ON status_accept.id = meeting_participant.status_accept
                 WHERE meeting_id = ?
             `;
 
@@ -75,7 +75,7 @@ export class MeetingService {
         }
 
         return {
-            status: true,
+            status: 200,
             message: 'SUCCESS_GET_MEETINGS',
             data: rows
         };

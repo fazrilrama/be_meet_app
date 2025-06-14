@@ -27,36 +27,36 @@ export class AuthService {
     const rows: any = await query('SELECT * FROM users WHERE email = ? OR username = ?', [email, username]);
 
     if(rows.length > 0) {
-        return {
-            status: false,
-            message: 'User tersebut sudah tersedia...'
-        };
+      return {
+        status: false,
+        message: 'User tersebut sudah tersedia...'
+      };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const insert: any = await query_transaction('INSERT INTO users (company_id, fullname, email, username, password) VALUES (?,?,?,?,?)', [company_id, fullname, email, username, hashedPassword]);
 
     if (insert.affectedRows == 0) {
-        return {
-            status: false,
-            message: 'Registrasi gagal, silakan coba lagi',
-        };
+      return {
+        status: false,
+        message: 'Registrasi gagal, silakan coba lagi',
+      };
     }
 
     return {
-        status: true,
-        message: 'Registrasi berhasil',
-        data: {
-          id: insert.insertId,
-          email,
-          username,
-          fullname,
-        },
+      status: 200,
+      message: 'Registrasi berhasil',
+      data: {
+        id: insert.insertId,
+        email,
+        username,
+        fullname,
+      },
     };
   }
 
   async login(user: any) {
-    const payload = { sub: user.id, email: user.email, user };
+    const payload = { sub: user.id, email: user.email, role: user.role_id, user };
     const token = this.jwtService.sign(payload);
 
     return {
