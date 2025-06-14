@@ -12,6 +12,7 @@ import { ParticipantModule } from './participant/participant.module';
 import { UserModule } from './user/user.module';
 import { ChatModule } from './chat/chat.module';
 import { UploadModule } from './upload/upload.module';
+import { CompanyModule } from './company/company.module';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
@@ -22,7 +23,8 @@ import { MongooseModule } from '@nestjs/mongoose';
     ParticipantModule, 
     UserModule, 
     ChatModule,
-    UploadModule
+    UploadModule,
+    CompanyModule
   ],
   controllers: [AppController, HealthController],
   providers: [AppService],

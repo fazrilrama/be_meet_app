@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async register(RegisterDto: RegisterDto) {
-    const { username, email, password, company_id, fullname } = RegisterDto;
+    const { username, email, password, company_id, fullname, role_id } = RegisterDto;
 
     const rows: any = await query('SELECT * FROM users WHERE email = ? OR username = ?', [email, username]);
 
@@ -34,7 +34,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const insert: any = await query_transaction('INSERT INTO users (company_id, fullname, email, username, password) VALUES (?,?,?,?,?)', [company_id, fullname, email, username, hashedPassword]);
+    const insert: any = await query_transaction('INSERT INTO users (company_id, role_id, fullname, email, username, password) VALUES (?,?,?,?,?,?)', [company_id, role_id, fullname, email, username, hashedPassword]);
 
     if (insert.affectedRows == 0) {
       return {

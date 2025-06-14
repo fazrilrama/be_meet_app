@@ -5,6 +5,10 @@ export class RegisterDto {
   @IsNotEmpty()
   company_id: number;
 
+  @IsNumber()
+  @IsNotEmpty()
+  role_id: number;
+
   @IsNotEmpty()
   @IsString()
   fullname: string;
