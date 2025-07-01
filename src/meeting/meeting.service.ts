@@ -67,12 +67,12 @@ export class MeetingService {
         const conditions_meet: string[] = [];
 
         if(user_id) {
-            conditions.push('meeting_participant.user_id = ?');
-            params.push(user_id);
+            conditions_meet.push('meeting_participant.user_id = ?');
+            params_meet.push(user_id);
         }
 
         if (conditions_meet.length > 0) {
-            meet_participant += ' WHERE ' + conditions.join(' AND ');
+            meet_participant += ' WHERE ' + conditions_meet.join(' AND ');
         }
 
         const data: any = await query(meet_participant, params_meet);

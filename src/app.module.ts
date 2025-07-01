@@ -17,7 +17,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.MONGO_URI),
+    MongooseModule.forRoot(process.env.MONGO_URI, {
+      ssl: false,
+      retryAttempts: 5,
+      retryDelay: 3000,
+    }),
     AuthModule, 
     MeetingModule, 
     ParticipantModule, 
